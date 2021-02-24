@@ -22,7 +22,7 @@ internal class PriorityProcessRegistryTest {
 
     @BeforeEach
     internal fun setUp() {
-        tested = PriorityProcessRegistry()
+        tested = PriorityProcessRegistry(mockk(relaxed = true))
     }
 
     @Test

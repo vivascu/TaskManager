@@ -1,6 +1,7 @@
 package registry
 
 import process.Process
+import process.ScheduledProcess
 
 interface ProcessRegistry {
     /**
@@ -25,7 +26,7 @@ interface ProcessRegistry {
     /**
      * Returns all the registered [Process]es.
      */
-    fun toList(): List<Process>
+    fun toList(): List<ScheduledProcess>
 
     companion object {
         const val CAPACITY = 5

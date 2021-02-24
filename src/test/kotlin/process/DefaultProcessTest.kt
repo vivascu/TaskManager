@@ -6,7 +6,7 @@ import process.Priority.HIGH
 
 internal class DefaultProcessTest {
     @Test
-    internal fun `Process IDs should be unique`() {
+    internal fun `process IDs should be unique`() {
         //Given
         val set = mutableSetOf<Process>()
         val expectedItemCount = 10

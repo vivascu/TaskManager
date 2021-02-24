@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import process.Process
+import process.ScheduledProcess
 import registry.ProcessRegistry
 
 internal class ApplicationTaskManagerTest {
@@ -22,7 +23,7 @@ internal class ApplicationTaskManagerTest {
     }
 
     @Test
-    internal fun `adding an process offers it to the registry`() {
+    internal fun `adding a process offers it to the registry`() {
         //Given
         val mockProcess1: Process = mockk(relaxed = true)
 
@@ -36,8 +37,8 @@ internal class ApplicationTaskManagerTest {
     @Test
     internal fun `listing the processes fetches them from the registry`() {
         //Given
-        val mockProcess1: Process = mockk(relaxed = true)
-        val mockProcess2: Process = mockk(relaxed = true)
+        val mockProcess1: ScheduledProcess = mockk(relaxed = true)
+        val mockProcess2: ScheduledProcess = mockk(relaxed = true)
         val expected = listOf(mockProcess1, mockProcess2)
         `given the process registry has items`(expected)
 
@@ -63,8 +64,8 @@ internal class ApplicationTaskManagerTest {
     @Test
     internal fun `killing all processes should kill each process in particular`() {
         //Given
-        val mockProcess1: Process = mockk(relaxed = true)
-        val mockProcess2: Process = mockk(relaxed = true)
+        val mockProcess1: ScheduledProcess = mockk(relaxed = true)
+        val mockProcess2: ScheduledProcess = mockk(relaxed = true)
         `given the process registry has items`(listOf(mockProcess1, mockProcess2))
 
         //When
@@ -100,7 +101,7 @@ internal class ApplicationTaskManagerTest {
         verify { mockProcess.kill() }
     }
 
-    private fun `given the process registry has items`(expected: List<Process>) {
+    private fun `given the process registry has items`(expected: List<ScheduledProcess>) {
         every { registry.toList() } returns expected
     }
 

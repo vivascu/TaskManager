@@ -1,11 +1,13 @@
 package manager
 
+import clock.DefaultClock
+import process.Priority
 import process.Process
 import registry.CapacityBoundRegistry
 import registry.ProcessRegistry
 
 class ApplicationTaskManager(
-    private val registry: ProcessRegistry = CapacityBoundRegistry()
+    private val registry: ProcessRegistry = CapacityBoundRegistry(DefaultClock())
 ) : TaskManager {
 
     override fun add(process: Process) {

@@ -13,7 +13,7 @@ internal class MostRecentProcessRegistryTest {
 
     @BeforeEach
     internal fun setUp() {
-        tested = MostRecentProcessRegistry()
+        tested = MostRecentProcessRegistry(mockk(relaxed = true))
     }
 
     @Test

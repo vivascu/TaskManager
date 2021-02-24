@@ -1,21 +1,26 @@
 package registry
 
+import clock.Clock
 import process.Process
+import process.ScheduledProcess
+import process.schedule
 import registry.ProcessRegistry.Companion.CAPACITY
 
 /**
  * An implementation of the [ProcessRegistry] bound to the preset [CAPACITY] of the registry.
  * When the [CAPACITY] is reached upon offering a new [Process] the least recent one is dropped and killed.
  */
-class MostRecentProcessRegistry : ProcessRegistry {
+class MostRecentProcessRegistry(
+    private val clock: Clock,
+) : ProcessRegistry {
 
-    private val data = ArrayDeque<Process>()
+    private val data = ArrayDeque<ScheduledProcess>()
 
     override fun offer(process: Process): Boolean {
         if (data.size >= CAPACITY) {
             data.removeFirst().kill()
         }
-        return data.add(process)
+        return data.add(process.schedule(clock))
     }
 
     override fun remove(process: Process): Boolean {
@@ -26,5 +31,5 @@ class MostRecentProcessRegistry : ProcessRegistry {
         data.clear()
     }
 
-    override fun toList(): List<Process> = data.toList()
+    override fun toList(): List<ScheduledProcess> = data.toList().sortedBy { it.timestamp }
 }

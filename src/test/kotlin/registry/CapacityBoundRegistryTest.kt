@@ -11,7 +11,7 @@ internal class CapacityBoundRegistryTest {
 
     @BeforeEach
     internal fun setUp() {
-        tested = CapacityBoundRegistry()
+        tested = CapacityBoundRegistry(mockk(relaxed = true))
     }
 
     @Test

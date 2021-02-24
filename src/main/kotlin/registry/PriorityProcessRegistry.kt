@@ -1,11 +1,16 @@
 package registry
 
+import clock.Clock
 import process.Priority
 import process.Process
+import process.ScheduledProcess
+import process.schedule
 import registry.ProcessRegistry.Companion.CAPACITY
 
-class PriorityProcessRegistry : ProcessRegistry {
-    private val data = ArrayDeque<Process>()
+class PriorityProcessRegistry(
+    private val clock: Clock
+) : ProcessRegistry {
+    private val data = ArrayDeque<ScheduledProcess>()
 
     override fun offer(process: Process): Boolean {
         if (data.size >= CAPACITY) {
@@ -14,12 +19,12 @@ class PriorityProcessRegistry : ProcessRegistry {
                 removeOldestWithPriority(lowestPriority)
             } else return false
         }
-        add(process)
+        add(process.schedule(clock))
         return true
     }
 
 
-    private fun add(newProcess: Process) {
+    private fun add(newProcess: ScheduledProcess) {
         return data.indexOfFirst { newProcess.priority > it.priority }
             .let { index ->
                 when {
@@ -44,5 +49,5 @@ class PriorityProcessRegistry : ProcessRegistry {
         data.clear()
     }
 
-    override fun toList(): List<Process> = data.toList()
+    override fun toList(): List<ScheduledProcess> = data.toList().sortedBy { it.timestamp }
 }
