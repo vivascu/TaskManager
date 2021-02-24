@@ -13,9 +13,7 @@ import java.util.concurrent.LinkedBlockingQueue
  */
 class CapacityBoundRegistry(
     private val clock: Clock,
-) : ProcessRegistry {
-
-    private val data = ArrayDeque<ScheduledProcess>()
+) : ArrayDequeProcessRegistry() {
 
     override fun offer(process: Process): Boolean {
         if (data.size >= CAPACITY) return false
@@ -23,13 +21,4 @@ class CapacityBoundRegistry(
         return true
     }
 
-    override fun remove(process: Process): Boolean {
-        return data.removeIf { process.id == it.id }
-    }
-
-    override fun clear() {
-        data.clear()
-    }
-
-    override fun toList(): List<ScheduledProcess> = data.toList().sortedBy { it.timestamp }
 }

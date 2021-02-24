@@ -2,7 +2,6 @@ package registry
 
 import clock.Clock
 import process.Process
-import process.ScheduledProcess
 import process.schedule
 import registry.ProcessRegistry.Companion.CAPACITY
 
@@ -12,9 +11,7 @@ import registry.ProcessRegistry.Companion.CAPACITY
  */
 class MostRecentProcessRegistry(
     private val clock: Clock,
-) : ProcessRegistry {
-
-    private val data = ArrayDeque<ScheduledProcess>()
+) : ArrayDequeProcessRegistry() {
 
     override fun offer(process: Process): Boolean {
         if (data.size >= CAPACITY) {
@@ -23,13 +20,4 @@ class MostRecentProcessRegistry(
         return data.add(process.schedule(clock))
     }
 
-    override fun remove(process: Process): Boolean {
-        return data.remove(process)
-    }
-
-    override fun clear() {
-        data.clear()
-    }
-
-    override fun toList(): List<ScheduledProcess> = data.toList().sortedBy { it.timestamp }
 }
