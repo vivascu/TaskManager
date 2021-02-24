@@ -1,21 +1,21 @@
 package manager
 
 import process.Process
-import queue.CapacityBoundQueue
-import queue.ProcessQueue
+import registry.CapacityBoundRegistry
+import registry.ProcessRegistry
 
 class ApplicationTaskManager(
-    private val queue: ProcessQueue = CapacityBoundQueue()
+    private val registry: ProcessRegistry = CapacityBoundRegistry()
 ) : TaskManager {
 
     override fun add(process: Process) {
-        queue.offer(process)
+        registry.offer(process)
     }
 
-    override fun list(): List<Process> = queue.toList()
+    override fun list(): List<Process> = registry.toList()
 
     override fun kill(process: Process) {
-        queue.remove(process)
+        registry.remove(process)
         process.kill()
     }
 
@@ -26,7 +26,7 @@ class ApplicationTaskManager(
     }
 
     override fun killAll() {
-        queue.toList().forEach { kill(it) }
-        queue.clear()
+        registry.toList().forEach { kill(it) }
+        registry.clear()
     }
 }

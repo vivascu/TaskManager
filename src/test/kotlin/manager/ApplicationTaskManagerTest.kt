@@ -7,22 +7,22 @@ import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import process.Process
-import queue.ProcessQueue
+import registry.ProcessRegistry
 
 internal class ApplicationTaskManagerTest {
 
-    private lateinit var queue: ProcessQueue
+    private lateinit var registry: ProcessRegistry
 
     private lateinit var tested: ApplicationTaskManager
 
     @BeforeEach
     internal fun setUp() {
-        queue = mockk(relaxed = true)
-        tested = ApplicationTaskManager(queue)
+        registry = mockk(relaxed = true)
+        tested = ApplicationTaskManager(registry)
     }
 
     @Test
-    internal fun `adding an process offers it to the queue`() {
+    internal fun `adding an process offers it to the registry`() {
         //Given
         val mockProcess1: Process = mockk(relaxed = true)
 
@@ -30,16 +30,16 @@ internal class ApplicationTaskManagerTest {
         tested.add(mockProcess1)
 
         //Then
-        verify { queue.offer(mockProcess1) }
+        verify { registry.offer(mockProcess1) }
     }
 
     @Test
-    internal fun `listing the processes fetches them from the queue`() {
+    internal fun `listing the processes fetches them from the registry`() {
         //Given
         val mockProcess1: Process = mockk(relaxed = true)
         val mockProcess2: Process = mockk(relaxed = true)
         val expected = listOf(mockProcess1, mockProcess2)
-        `given the process queue has items`(expected)
+        `given the process registry has items`(expected)
 
         //When
         val actual = tested.list()
@@ -49,15 +49,15 @@ internal class ApplicationTaskManagerTest {
     }
 
     @Test
-    internal fun `killing all processes should clear the queue`() {
+    internal fun `killing all processes should clear the registry`() {
         //Given
-        `given the process queue is empty`()
+        `given the process registry is empty`()
 
         //When
         tested.killAll()
 
         //Then
-        verify { queue.clear() }
+        verify { registry.clear() }
     }
 
     @Test
@@ -65,7 +65,7 @@ internal class ApplicationTaskManagerTest {
         //Given
         val mockProcess1: Process = mockk(relaxed = true)
         val mockProcess2: Process = mockk(relaxed = true)
-        `given the process queue has items`(listOf(mockProcess1, mockProcess2))
+        `given the process registry has items`(listOf(mockProcess1, mockProcess2))
 
         //When
         tested.killAll()
@@ -76,7 +76,7 @@ internal class ApplicationTaskManagerTest {
     }
 
     @Test
-    internal fun `killing a process should remove it from the queue`() {
+    internal fun `killing a process should remove it from the registry`() {
         //Given
         val mockProcess: Process = mockk(relaxed = true)
 
@@ -84,7 +84,7 @@ internal class ApplicationTaskManagerTest {
         tested.kill(mockProcess)
 
         //Then
-        verify { queue.remove(mockProcess) }
+        verify { registry.remove(mockProcess) }
     }
 
 
@@ -100,11 +100,11 @@ internal class ApplicationTaskManagerTest {
         verify { mockProcess.kill() }
     }
 
-    private fun `given the process queue has items`(expected: List<Process>) {
-        every { queue.toList() } returns expected
+    private fun `given the process registry has items`(expected: List<Process>) {
+        every { registry.toList() } returns expected
     }
 
-    private fun `given the process queue is empty`() {
-        every { queue.toList() } returns emptyList()
+    private fun `given the process registry is empty`() {
+        every { registry.toList() } returns emptyList()
     }
 }

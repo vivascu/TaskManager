@@ -1,17 +1,17 @@
-package queue
+package registry
 
 import io.mockk.mockk
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import queue.ProcessQueue.Companion.CAPACITY
+import registry.ProcessRegistry.Companion.CAPACITY
 
-internal class CapacityBoundQueueTest {
-    lateinit var tested: CapacityBoundQueue
+internal class CapacityBoundRegistryTest {
+    lateinit var tested: CapacityBoundRegistry
 
     @BeforeEach
     internal fun setUp() {
-        tested = CapacityBoundQueue()
+        tested = CapacityBoundRegistry()
     }
 
     @Test

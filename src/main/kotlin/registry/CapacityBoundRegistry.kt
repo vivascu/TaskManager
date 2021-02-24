@@ -1,14 +1,14 @@
-package queue
+package registry
 
 import process.Process
-import queue.ProcessQueue.Companion.CAPACITY
+import registry.ProcessRegistry.Companion.CAPACITY
 import java.util.concurrent.LinkedBlockingQueue
 
 /**
- * A simple implementation of the [ProcessQueue] that will respect the [CAPACITY] limit by not accepting any new
+ * A simple implementation of the [ProcessRegistry] that will respect the [CAPACITY] limit by not accepting any new
  * offered [Process]es.
  */
-class CapacityBoundQueue() : ProcessQueue {
+class CapacityBoundRegistry() : ProcessRegistry {
 
     private val data = LinkedBlockingQueue<Process>(CAPACITY)
 

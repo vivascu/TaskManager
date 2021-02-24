@@ -1,29 +1,29 @@
-package queue
+package registry
 
 import process.Process
 
-interface ProcessQueue {
+interface ProcessRegistry {
     /**
-     * Inserts the specified [Process] into the queue.
+     * Inserts the specified [Process] into the registry.
      *
-     * Returns *true* if the [Process] was enqueued.
+     * Returns *true* if the [Process] was registered.
      */
     fun offer(process: Process): Boolean
 
     /**
-     * Removes the specified [Process] from the queue.
+     * Removes the specified [Process] from the registry.
      *
      * Returns *true* if the [Process] was removed.
      */
     fun remove(process: Process): Boolean
 
     /**
-     * Remove all the [Process]es in the queue.
+     * Remove all the [Process]es in the registry.
      */
     fun clear()
 
     /**
-     * Returns all the enqueued [Process]es.
+     * Returns all the registered [Process]es.
      */
     fun toList(): List<Process>
 
