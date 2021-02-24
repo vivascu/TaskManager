@@ -1,10 +1,11 @@
 package manager
 
 import process.Process
+import queue.CapacityBoundQueue
 import queue.ProcessQueue
 
 class ApplicationTaskManager(
-    private val queue: ProcessQueue
+    private val queue: ProcessQueue = CapacityBoundQueue()
 ) : TaskManager {
 
     override fun add(process: Process) {

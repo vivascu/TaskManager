@@ -20,10 +20,14 @@ interface ProcessQueue {
     /**
      * Remove all the [Process]es in the queue.
      */
-    fun  clear()
+    fun clear()
 
     /**
      * Returns all the enqueued [Process]es.
      */
     fun toList(): List<Process>
+
+    companion object {
+        const val CAPACITY = 5
+    }
 }
