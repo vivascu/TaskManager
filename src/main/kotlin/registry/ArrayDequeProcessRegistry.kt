@@ -7,7 +7,7 @@ import process.ScheduledProcess
  *  This abstraction level is created in order to improve the readability of the different
  *  [ProcessRegistry] implementations.
  *
- *  Inheritance was deliberately used in order not to over-complicate the solution for readability purposes.
+ *  Inheritance was consciously used in order not to over-complicate the solution for readability purposes.
  */
 internal abstract class ArrayDequeProcessRegistry : ProcessRegistry {
     protected val data = ArrayDeque<ScheduledProcess>()
