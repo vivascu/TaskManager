@@ -26,7 +26,7 @@ internal class PriorityProcessRegistryTest {
     }
 
     @Test
-    internal fun `offering an process inserts it last based on priority`() {
+    internal fun `offering a process inserts it last based on priority`() {
         //Given
         val high = `mock process with priority`(HIGH)
         val medium = `mock process with priority`(MEDIUM)
@@ -45,7 +45,7 @@ internal class PriorityProcessRegistryTest {
     }
 
     @Test
-    internal fun `offering an process inserts it after highest priority when smaller do not exist `() {
+    internal fun `offering a process inserts it after highest priority when smaller do not exist `() {
         //Given
         val high = `mock process with priority`(HIGH)
         val medium = `mock process with priority`(MEDIUM)
@@ -62,7 +62,7 @@ internal class PriorityProcessRegistryTest {
     }
 
     @Test
-    internal fun `offering an process to an empty registry gets added`() {
+    internal fun `offering a process to an empty registry gets added`() {
         //Given
         val medium = `mock process with priority`(MEDIUM)
 
@@ -78,7 +78,7 @@ internal class PriorityProcessRegistryTest {
     }
 
     @Test
-    internal fun `offering an process in a full registry priority gets inserted`() {
+    internal fun `offering a process in a full registry priority gets inserted`() {
         //Given
         val high = `mock process with priority`(HIGH)
         val medium = `mock process with priority`(MEDIUM)
@@ -98,7 +98,7 @@ internal class PriorityProcessRegistryTest {
     }
 
     @Test
-    internal fun `offering an process in a full registry priority removes oldest lowest priority`() {
+    internal fun `offering a process in a full registry priority removes oldest lowest priority`() {
         //Given
         val medium = `mock process with priority`(MEDIUM)
 
@@ -127,7 +127,7 @@ internal class PriorityProcessRegistryTest {
     }
 
     @Test
-    internal fun `offering an process in a full registry with low priority gets ignored`() {
+    internal fun `offering a process in a full registry with low priority gets ignored`() {
         //Given
         val medium = `mock process with priority`(MEDIUM)
         val low = `mock process with priority`(LOW)

@@ -27,6 +27,10 @@ class ApplicationTaskManager(
         }
     }
 
+    override fun kill(priority: Priority) {
+        registry.removeGroup(priority).forEach { it.kill() }
+    }
+
     override fun killAll() {
         registry.toList().forEach { kill(it) }
         registry.clear()

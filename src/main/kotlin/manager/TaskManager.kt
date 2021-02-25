@@ -1,5 +1,6 @@
 package manager
 
+import process.Priority
 import process.Process
 
 /**
@@ -26,6 +27,11 @@ interface TaskManager {
      * Kill all the specified [processes] if running.
      */
     fun kill(processes: Collection<Process>)
+
+    /**
+     * Kill all the processes of the specified [Priority] if running.
+     */
+    fun kill(priority: Priority)
 
     /**
      * Kill all the ongoing processes.

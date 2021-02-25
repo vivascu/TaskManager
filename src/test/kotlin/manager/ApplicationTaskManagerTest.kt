@@ -6,6 +6,8 @@ import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import process.Priority
+import process.Priority.HIGH
 import process.Process
 import process.ScheduledProcess
 import registry.ProcessRegistry
@@ -96,6 +98,21 @@ internal class ApplicationTaskManagerTest {
 
         //When
         tested.kill(mockProcess)
+
+        //Then
+        verify { mockProcess.kill() }
+    }
+
+    @Test
+    internal fun `killing all processes in a group should invoke self destruct`() {
+        //Given
+        val mockProcess: Process = mockk(relaxed = true) {
+            every { priority } returns HIGH
+        }
+        every { registry.removeGroup(HIGH) } returns listOf(mockProcess)
+
+        //When
+        tested.kill(HIGH)
 
         //Then
         verify { mockProcess.kill() }

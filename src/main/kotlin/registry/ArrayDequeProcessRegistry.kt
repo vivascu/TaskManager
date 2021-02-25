@@ -1,5 +1,6 @@
 package registry
 
+import process.Priority
 import process.Process
 import process.ScheduledProcess
 
@@ -9,12 +10,13 @@ import process.ScheduledProcess
  *
  *  Inheritance was consciously used in order not to over-complicate the solution for readability purposes.
  */
-internal abstract class ArrayDequeProcessRegistry : ProcessRegistry {
+abstract class ArrayDequeProcessRegistry : ProcessRegistry {
     protected val data = ArrayDeque<ScheduledProcess>()
 
-    override fun remove(process: Process): Boolean {
-        return data.removeIf { process.id == it.id }
-    }
+    override fun remove(process: Process): Boolean = data.removeIf { process.id == it.id }
+
+    override fun removeGroup(priority: Priority): List<Process> = data.filter { it.priority == priority }
+        .also { data.removeAll(it) }
 
     override fun clear() {
         data.clear()
