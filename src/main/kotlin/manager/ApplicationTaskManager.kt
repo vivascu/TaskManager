@@ -3,6 +3,7 @@ package manager
 import clock.DefaultClock
 import process.Priority
 import process.Process
+import process.ScheduledProcess
 import registry.CapacityBoundRegistry
 import registry.ProcessRegistry
 
@@ -14,7 +15,9 @@ class ApplicationTaskManager(
         registry.offer(process)
     }
 
-    override fun list(): List<Process> = registry.toList()
+    override fun list(): List<Process> = list(compareBy { it.timestamp })
+
+    override fun list(comparator: Comparator<in ScheduledProcess>): List<Process> = registry.toList(comparator)
 
     override fun kill(process: Process) {
         registry.remove(process)

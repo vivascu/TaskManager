@@ -22,5 +22,6 @@ abstract class ArrayDequeProcessRegistry : ProcessRegistry {
         data.clear()
     }
 
-    override fun toList(): List<ScheduledProcess> = data.toList().sortedBy { it.timestamp }
+    override fun toList(comparator: Comparator<in ScheduledProcess>): List<ScheduledProcess> =
+        data.toList().sortedWith(comparator)
 }

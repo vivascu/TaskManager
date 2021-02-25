@@ -6,7 +6,6 @@ import io.mockk.verify
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import process.Priority
 import process.Priority.HIGH
 import process.Process
 import process.ScheduledProcess
@@ -39,8 +38,12 @@ internal class ApplicationTaskManagerTest {
     @Test
     internal fun `listing the processes fetches them from the registry`() {
         //Given
-        val mockProcess1: ScheduledProcess = mockk(relaxed = true)
-        val mockProcess2: ScheduledProcess = mockk(relaxed = true)
+        val mockProcess1: ScheduledProcess = mockk(relaxed = true) {
+            every { timestamp } returns 1
+        }
+        val mockProcess2: ScheduledProcess = mockk(relaxed = true) {
+            every { timestamp } returns 2
+        }
         val expected = listOf(mockProcess1, mockProcess2)
         `given the process registry has items`(expected)
 
@@ -49,6 +52,18 @@ internal class ApplicationTaskManagerTest {
 
         //Then
         assertEquals(expected, actual)
+    }
+
+    @Test
+    internal fun `listing the processes with a comparator delegates to the registry`() {
+        //Given
+        val comparator = compareBy<ScheduledProcess> { it.priority }
+
+        //When
+        val actual = tested.list(comparator)
+
+        //Then
+        verify { registry.toList(comparator) }
     }
 
     @Test
@@ -119,7 +134,7 @@ internal class ApplicationTaskManagerTest {
     }
 
     private fun `given the process registry has items`(expected: List<ScheduledProcess>) {
-        every { registry.toList() } returns expected
+        every { registry.toList(any()) } returns expected
     }
 
     private fun `given the process registry is empty`() {

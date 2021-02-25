@@ -4,7 +4,7 @@ import process.Priority
 import process.Process
 import process.ScheduledProcess
 
-interface ProcessRegistry {
+interface ProcessRegistry : ProcessProvider {
     /**
      * Inserts the specified [Process] into the registry.
      *
@@ -24,17 +24,12 @@ interface ProcessRegistry {
      *
      * Returns all the removed [Process]es.
      */
-    fun removeGroup(priority: Priority):List<Process>
+    fun removeGroup(priority: Priority): List<Process>
 
     /**
      * Remove all the [Process]es in the registry.
      */
     fun clear()
-
-    /**
-     * Returns all the registered [Process]es.
-     */
-    fun toList(): List<ScheduledProcess>
 
     companion object {
         const val CAPACITY = 5
